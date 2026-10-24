@@ -1,0 +1,216 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <meta name="theme-color" content="#07090d" />
+    <meta name="description" content="Free 3D Blockout in your browser. Classic 3D falling-block puzzle with configurable pits, block sets, key bindings and a hole warning for beginners. No signup, no server." />
+    <title>Blockout 3D — Free 3D Falling-Block Puzzle</title>
+    <link rel="icon" href="./favicon.svg" type="image/svg+xml" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;700&family=JetBrains+Mono:wght@400;600;800&family=Space+Grotesk:wght@400;700&display=swap" rel="stylesheet" />
+  </head>
+  <body>
+    <header class="site-header">
+      <div class="header-inner">
+        <a class="brand" href="#top">
+          <span class="brand-mark" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 3 20 7.5v9L12 21l-8-4.5v-9z" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M4 7.5 12 12l8-4.5M12 12v9" fill="none" stroke="currentColor" stroke-width="1.6"/></svg></span>
+          Blockout 3D
+        </a>
+        <nav class="nav" aria-label="Main">
+          <a href="#play" class="active">Play</a>
+          <a href="#features">Features</a>
+          <a href="#how-to-play">Controls</a>
+          <a href="#faq">FAQ</a>
+          <a class="nav-cta" href="#play" data-action="start">Play now</a>
+        </nav>
+      </div>
+    </header>
+
+    <main id="top">
+      <section class="hero hero-center">
+        <span class="pill">Local-first 3D puzzle · no signup · no server</span>
+        <h1>Free 3D Blockout in Your Browser</h1>
+        <p class="lead">Drop polycubes into a 3D pit, rotate them on every axis and fill complete layers. Classic Blockout gameplay with configurable pits, block sets and key bindings — all running in your browser.</p>
+        <div class="hero-actions">
+          <a class="btn btn-primary" href="#play" data-action="start">Play Blockout — Free</a>
+          <a class="btn" href="#how-to-play">How to play</a>
+        </div>
+        <p class="hero-note">No account. No tracking. Scores are never stored or sent anywhere.</p>
+      </section>
+
+      <section class="container wide" id="play">
+        <div class="tool">
+          <aside class="tool-col setup-col" aria-label="Game setup">
+            <div class="col-head">
+              <h2 class="tool-label">Choose setup</h2>
+              <p class="tool-hint">Pick a classic setup or build your own pit.</p>
+            </div>
+            <div class="seg-grid presets" role="group" aria-label="Presets"></div>
+
+            <h3 class="tool-label">Change setup</h3>
+            <div class="stepper-list">
+              <div class="stepper" data-field="width"><span>Pit width</span><button type="button" data-step="-1" aria-label="Decrease pit width">−</button><output></output><button type="button" data-step="1" aria-label="Increase pit width">+</button></div>
+              <div class="stepper" data-field="height"><span>Pit length</span><button type="button" data-step="-1" aria-label="Decrease pit length">−</button><output></output><button type="button" data-step="1" aria-label="Increase pit length">+</button></div>
+              <div class="stepper" data-field="depth"><span>Pit depth</span><button type="button" data-step="-1" aria-label="Decrease pit depth">−</button><output></output><button type="button" data-step="1" aria-label="Increase pit depth">+</button></div>
+              <div class="stepper" data-field="startLevel"><span>Start level</span><button type="button" data-step="-1" aria-label="Decrease start level">−</button><output></output><button type="button" data-step="1" aria-label="Increase start level">+</button></div>
+            </div>
+
+            <h3 class="tool-label">Block set</h3>
+            <div class="seg-grid three blocksets" role="group" aria-label="Block set">
+              <button type="button" class="seg-btn" data-set="flat">Flat</button>
+              <button type="button" class="seg-btn" data-set="basic">Basic</button>
+              <button type="button" class="seg-btn" data-set="extended">Extended</button>
+            </div>
+            <div class="info-box" data-testid="setup-summary"></div>
+            <button type="button" class="btn btn-primary block-btn" data-action="start">Start game</button>
+          </aside>
+
+          <div class="tool-col tool-preview">
+            <div class="preview-head">
+              <h2 class="tool-label">Live pit</h2>
+              <div class="chips"><span class="chip" data-chip="pit"></span><span class="chip" data-chip="set"></span></div>
+            </div>
+
+            <div class="game-frame" id="game-frame">
+              <div class="hud hud-left">
+                <div class="hud-box">
+                  <div class="hud-title">Level</div>
+                  <div class="hud-value level" data-hud="level">0</div>
+                </div>
+                <div class="gauge" data-hud="gauge" aria-label="Pit filling"></div>
+              </div>
+
+              <div class="pit-wrap">
+                <canvas id="pit" aria-label="Blockout pit"></canvas>
+                <div class="hole-alert" data-testid="hole-alert" role="alert" hidden>
+                  <svg viewBox="0 0 64 64" aria-hidden="true">
+                    <rect x="8" y="8" width="48" height="16" rx="2" fill="#ffb020" stroke="#fff" stroke-width="2"/>
+                    <rect x="8" y="28" width="22" height="22" rx="2" fill="#5b6475" stroke="#fff" stroke-width="2"/>
+                    <rect x="34" y="28" width="22" height="22" rx="2" fill="none" stroke="#ff4d4d" stroke-width="3" stroke-dasharray="5 4"/>
+                    <path d="M45 33v8M45 45v.5" stroke="#ff4d4d" stroke-width="4" stroke-linecap="round"/>
+                    <path d="M4 56h56" stroke="#fff" stroke-width="2"/>
+                  </svg>
+                  <span>Hole below!</span>
+                </div>
+                <div class="overlay" data-testid="overlay">
+                  <div class="overlay-title">Click to start</div>
+                  <div class="overlay-sub">Press Enter or tap the pit</div>
+                </div>
+              </div>
+
+              <div class="hud hud-right">
+                <div class="logo" aria-hidden="true"><span class="logo-red">BLOCK<br />OUT</span><span class="logo-blue">3D</span></div>
+                <div class="hud-box"><div class="hud-title">Score</div><div class="hud-value"><span data-hud="score">0</span><small data-hud="gain"></small></div></div>
+                <div class="hud-box"><div class="hud-title">Cubes Played</div><div class="hud-value" data-hud="cubes">0</div></div>
+                <div class="hud-box"><div class="hud-title">High Score</div><div class="hud-value" data-hud="high">0</div></div>
+                <div class="hud-box"><div class="hud-title">Pit</div><div class="hud-value" data-hud="pit">5x5x12</div></div>
+                <div class="hud-box"><div class="hud-title">Block Set</div><div class="hud-value orange" data-hud="set">Flat</div></div>
+              </div>
+              <button type="button" class="fs-btn" data-action="fullscreen" aria-label="Toggle fullscreen">⛶</button>
+            </div>
+
+            <div class="touch-controls" aria-label="Touch controls">
+              <div class="touch-pad">
+                <button type="button" data-touch="up" aria-label="Move up">▲</button>
+                <button type="button" data-touch="left" aria-label="Move left">◀</button>
+                <button type="button" data-touch="drop" class="drop" aria-label="Drop">DROP</button>
+                <button type="button" data-touch="right" aria-label="Move right">▶</button>
+                <button type="button" data-touch="down" aria-label="Move down">▼</button>
+              </div>
+              <div class="touch-rot">
+                <button type="button" data-touch="rotXp">X+</button>
+                <button type="button" data-touch="rotYp">Y+</button>
+                <button type="button" data-touch="rotZp">Z+</button>
+                <button type="button" data-touch="rotXn">X−</button>
+                <button type="button" data-touch="rotYn">Y−</button>
+                <button type="button" data-touch="rotZn">Z−</button>
+                <button type="button" data-touch="pause" class="wide">Pause</button>
+              </div>
+            </div>
+          </div>
+
+          <aside class="tool-col options-col" aria-label="Options">
+            <div class="col-head">
+              <h2 class="tool-label">Game controls</h2>
+              <p class="tool-hint">Click a key to rebind it. Press Escape to cancel.</p>
+            </div>
+            <div class="key-grid" data-testid="key-grid"></div>
+            <div class="seg-grid two" role="group" aria-label="Keyboard presets">
+              <button type="button" class="seg-btn" data-preset-keys="qwerty">QWERTY</button>
+              <button type="button" class="seg-btn" data-preset-keys="azerty">AZERTY</button>
+            </div>
+            <div class="info-box mono">[Cursor] Move · [Space] Drop · [P] Pause · [Esc] Pause</div>
+
+            <h3 class="tool-label">Graphics &amp; sound</h3>
+            <div class="switch-row">
+              <span>Sound</span>
+              <button type="button" class="switch" role="switch" data-option="sound" aria-label="Sound"><span></span></button>
+            </div>
+            <label class="slider-row"><span>Rotation speed</span><input type="range" min="0" max="10" data-option="rotationSpeed" /><output></output></label>
+            <label class="slider-row"><span>Transparent face</span><input type="range" min="0" max="10" data-option="transparency" /><output></output></label>
+            <label class="slider-row"><span>Line width</span><input type="range" min="0" max="10" data-option="lineWidth" /><output></output></label>
+            <button type="button" class="btn block-btn" data-action="fullscreen">Fullscreen</button>
+          </aside>
+        </div>
+      </section>
+
+      <section class="section container" id="features">
+        <div class="section-head">
+          <span class="eyebrow">Why this version</span>
+          <h2>Classic Blockout, with a few helping hands</h2>
+          <p class="lead">The pit, the pieces and the controls you remember, plus visual aids that make learning 3D stacking easier.</p>
+        </div>
+        <div class="card-grid">
+          <article class="mini-card"><h3>True 3D pit</h3><p>Look straight down a green wireframe pit. Settled cubes take the colour of their layer, so depth is readable at a glance.</p></article>
+          <article class="mini-card"><h3>Ground contact highlight</h3><p>The part of the falling piece closest to the floor glows amber, so you always know which cubes touch down first.</p></article>
+          <article class="mini-card"><h3>Hole warning</h3><p>On levels 0, 1 and 2 a blinking icon warns you when the piece would leave a gap below it. Rotate or move until it disappears.</p></article>
+          <article class="mini-card"><h3>Three classic setups</h3><p>Flat Fun, 3D Mania and Out of Control — or any pit from 3×3×6 to 7×7×18 with Flat, Basic or Extended pieces.</p></article>
+          <article class="mini-card"><h3>Your keys, your layout</h3><p>Rebind every rotation key, or switch between QWERTY and AZERTY presets in one click. Settings stay in your browser.</p></article>
+          <article class="mini-card"><h3>Desktop and mobile</h3><p>Scales from phones to 27" monitors, with on-screen touch controls and fullscreen mode.</p></article>
+        </div>
+      </section>
+
+      <section class="section container" id="how-to-play">
+        <div class="section-head">
+          <span class="eyebrow">How to play</span>
+          <h2>Fill complete layers to clear them</h2>
+        </div>
+        <div class="card-grid two">
+          <article class="mini-card">
+            <h3>Keyboard</h3>
+            <table class="keys-table">
+              <tbody>
+                <tr><td><kbd>←</kbd><kbd>→</kbd><kbd>↑</kbd><kbd>↓</kbd></td><td>Move the piece</td></tr>
+                <tr><td><kbd>Q</kbd> / <kbd>A</kbd></td><td>Rotate around the X axis</td></tr>
+                <tr><td><kbd>W</kbd> / <kbd>S</kbd></td><td>Rotate around the Y axis</td></tr>
+                <tr><td><kbd>E</kbd> / <kbd>D</kbd></td><td>Rotate around the Z axis</td></tr>
+                <tr><td><kbd>Space</kbd></td><td>Drop the piece</td></tr>
+                <tr><td><kbd>P</kbd> / <kbd>Esc</kbd></td><td>Pause</td></tr>
+              </tbody>
+            </table>
+          </article>
+          <article class="mini-card">
+            <h3>Scoring</h3>
+            <p>Every locked piece scores its cubes plus the layers it was dropped, multiplied by the level. Clearing several layers at once is worth far more, and emptying the pit earns a big bonus. Every 3 cleared layers the level goes up and pieces fall 36% faster (from 5.5 s per layer at level 0).</p>
+          </article>
+        </div>
+      </section>
+
+      <section class="section container" id="faq">
+        <div class="section-head"><span class="eyebrow">FAQ</span><h2>Questions</h2></div>
+        <div class="faq">
+          <details><summary>Are my scores saved?</summary><p>No. There is no server. The high score lives only while the page is open.</p></details>
+          <details><summary>What does the hole warning check?</summary><p>It simulates the drop and looks under the lowest cube of every column of the piece. If any of those cells would stay empty, the icon blinks.</p></details>
+          <details><summary>Can I play on my phone?</summary><p>Yes. Use the on-screen pad to move and drop, and the X/Y/Z buttons to rotate.</p></details>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <div class="container">Blockout 3D · A fan remake of the classic 3D falling-block puzzle · Runs entirely in your browser.</div>
+    </footer>
+    <script type="module" src="/src/main.ts"></script>
+  </body>
+</html>
