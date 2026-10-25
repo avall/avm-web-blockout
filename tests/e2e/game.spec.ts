@@ -147,6 +147,8 @@ test.describe('large screens', () => {
       expect(box.height).toBeGreaterThan(h * 0.5);
       expect(box.height).toBeLessThanOrEqual(h);
       expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBeLessThanOrEqual(w);
+      await expect(page.locator('.touch-pad')).toBeVisible();
+      await expect(page.locator('.touch-rot')).toBeVisible();
     });
   }
 });

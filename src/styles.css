@@ -280,8 +280,8 @@ p { margin: 0; }
 .tool-preview:fullscreen { border-radius: 0; justify-content: center; overflow: auto; }
 .tool-preview:fullscreen .pit-wrap { width: min(100%, calc((100dvh - 120px) * var(--pit-aspect))); }
 
-/* Touch controls: only visible on touch devices or narrow screens */
-.touch-controls { display: none; gap: 10px; grid-template-columns: 1fr 1fr; }
+/* Touch controls: always visible so any touchscreen can play */
+.touch-controls { display: grid; gap: 10px; grid-template-columns: 1fr 1fr; }
 .touch-controls button {
   min-height: 48px; border-radius: 12px; background: var(--bg-panel-2); border: 1px solid var(--border-strong);
   font: 800 15px var(--font-mono); color: var(--text); touch-action: manipulation;
@@ -314,14 +314,6 @@ kbd {
 .faq summary { cursor: pointer; font: 700 16px var(--font-display); color: #fff; }
 .faq details p { margin-top: 10px; color: var(--text-muted); font-size: 15px; }
 .site-footer { padding: 48px 0 32px; font-size: 14px; color: var(--text-muted); border-top: 1px solid var(--border-subtle); text-align: center; }
-
-/* Touch pad on touch devices, or whenever the game column gets narrow */
-@media (pointer: coarse) {
-  .touch-controls { display: grid; }
-}
-@container game (max-width: 619px) {
-  .touch-controls { display: grid; }
-}
 
 @media (max-width: 1000px) {
   .card-grid { grid-template-columns: repeat(2, 1fr); }
